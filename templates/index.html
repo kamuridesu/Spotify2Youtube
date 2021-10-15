@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Autenticado com sucesso! Pode fechar essa página</p>
+    <!--p>Autenticado com sucesso! Essa pagina fechará em <spam id="countdown"> </spam> segundos</p>
+    <p>Caso não feche, <a href="" onclick="closeWindow()">clique aqui</a></p>
+
+    <script>
+        function countdown(duration) {
+            var timer = duration, minutes, seconds;
+            let spam_countdown = document.getElementById("countdown");
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                // display.textContent = minutes + ":" + seconds;
+                spam_countdown.innerHTML = seconds;
+                console.log(seconds)
+                if (seconds == "00") {
+                    window.open("", '_self').window.close();
+                    window.close()
+                }
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var fiveSeconds = 5
+            countdown(fiveSeconds);
+        };
+
+        function closeWindow() {
+            window.open("", '_self').window.close();
+            window.close()
+        }
+    </script-->
+</body>
+</html>
