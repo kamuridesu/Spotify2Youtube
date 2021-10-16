@@ -34,8 +34,7 @@ def verify():
 @app.route("/index")
 def index():
     try:
-        with open("session_token", "w", encoding="utf-8") as f:
-            f.write(json.dumps(session["token_info"]))
+        session["token_info"]
         return render_template("index.html")
     except KeyError:
         return verify()
@@ -93,8 +92,8 @@ def migrate():
         playlists = api.getPlaylists(session["token_info"]['access_token'])
         tracks = api.getTracks(playlists, session["token_info"]['access_token'])
         playlist = youtube.PlaylistToYoutube()
-        playlist.migratePlaylist(tracks)
-
+        render_template("migrating.html")
+        processes = playlist.migratePlaylist(tracks)
         return redirect('index')
     except (spotipy.exceptions.SpotifyException, KeyError):
         return verify()

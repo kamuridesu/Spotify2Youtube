@@ -1,12 +1,14 @@
 from re import search
 from ytmusicapi import YTMusic, ytmusic
 
-class Playlist:
-    def __init__(self, playlistId):
-        self.playlistID = playlistId
 
-    def addTrack(self):
-        pass
+def addSongToPlaylist(playlistId, search_query, ytmusic_intance):
+    search_results = ytmusic_intance.search(search_query)
+    for result in search_results:
+        if result['resultType'] == "song":
+            print(result['title'])
+            ytmusic_intance.add_playlist_items(playlistId, [result['videoId']])
+            break
 
 
 class PlaylistToYoutube:
@@ -20,19 +22,19 @@ class PlaylistToYoutube:
             print("migrando " + playlist['playlist_name'])
             # print(playlist['tracks'])
             print(len(playlist['tracks']))
+            processes = []
             for song in playlist['tracks']:
                 search_query = song['name'] + " " + song['artist']
-                search_results = self.ytmusic.search(search_query)
-                print(search_results)
-                self.ytmusic.add_playlist_items(playlistId, [search_results[0]['videoId']])
+                addSongToPlaylist(playlistId, search_query, self.ytmusic)
+
+                
 
     def deletePlaylist(self, playlistId):
         self.ytmusic.delete_playlist(playlistId)
 
 
 if __name__ == "__main__":
-    migration = PlaylistToYoutube()
-    # migration.createPlaylist(test_dict)
+   pass
 
 # ytmusic = YTMusic('headers_auth.json')
 # playlistId = ytmusic.create_playlist('test', 'test description')
