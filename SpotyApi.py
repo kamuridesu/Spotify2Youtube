@@ -1,9 +1,10 @@
-import requests
+# import requests
 import json
 
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-from spotipy.oauth2 import SpotifyOAuth
+# from spotipy.oauth2 import SpotifyClientCredentials
+# from spotipy.oauth2 import SpotifyOAuth
+
 
 def getTrackInfo(results):
     tracks = []
@@ -26,7 +27,7 @@ class SpotifyApi:
         with open("credentials.json", "r", encoding="utf-8") as f:
             return json.loads(f.read())
 
-    def processPlaylists(self, playlist_dict): 
+    def processPlaylists(self, playlist_dict):
         d = playlist_dict[list(playlist_dict.keys())[1]]
         info = []
         for k in d:
@@ -42,7 +43,7 @@ class SpotifyApi:
 
         user = connection.current_user()
         user_id = user['id']
-        username = user['display_name']
+        # username = user['display_name']
         playlists = connection.user_playlists(user_id)
         return self.processPlaylists(playlists)
 
@@ -71,4 +72,3 @@ class SpotifyApi:
 if __name__ == "__main__":
     api = SpotifyApi()
     api.getPlaylists("uk6rvhamepkrbzpx2lqh9a78z")
-    
