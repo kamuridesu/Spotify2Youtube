@@ -3,7 +3,7 @@ Migrate Spotify playlists to Youtube Music
 
 
 ## ATTENTION!
-I made this project because I wanted to move from Spotify to YTMusic without losing all my playlists with years of music. Worked, but there's a lot of bugs that I need to fix:
+I made this project because I wanted to move from Spotify to YTMusic without losing all my playlists with years of music. It worked, but there's a lot of bugs that I need to fix:
 - Create a front page on /index, after the user authenticate
 - Create a /auth page to authenticate users instead of only /
 - Ability to choose the playlist to migrate
@@ -31,10 +31,11 @@ You can build the Dockerfile with `docker build -t spotify .` and run with `dock
 
 ### Routes
 The defined routes are:
-- /, authenticates the user
-- /index, after authentication, shows that everything was successful
-- /playlists, shows all aviable playlists
-- /api_callback, callback for the app, retrieves the user tokens
+- /, welcome page
+- /auth, authenticates the user
+- /callback, callback for the app, retrieves the user tokens
+- /success, after authentication, shows that everything was successful
+- /playlists, shows all available playlists and the option to migrate
 - /playlists/tracks, prints the playlists tracks to your terminal
-- /migrate, migrates the playlists
+- /migrate, migrates all the playlists
 - /delete, deletes a youtube playlist using a query string to receive the playlist id, like: `delete?playlist_id=PLxMD4Nzoqa861bL7m3OSY-N4dn3Wr45f4`
