@@ -19,30 +19,32 @@
             display: table-cell;
             vertical-align: middle;
             text-align: center;
-            margin: 0, auto;
         }
-        button {
-            display: inline-block; margin-left: 20px;
-        }
-        .buttons {
-            width: 960px;
-            margin: 0 auto;
-        }
-
-        .action_btn {
-            width: 500px;
-            margin: 0 auto;
-        }
-
-
     </style>
 </head>
 <body class="bg-dark text-light text-center">
-    {% for arg in args %}
-        <div class="md-col-4">
-        <label class="label "><a href="https://open.spotify.com/playlist/{{ arg['id'] }}" style="text-align: left" class="bg-dark">{{ arg["name"] }}</a></label>
-        <button class="btn btn-primary" style="text-align: right;"> Migrate </button>
+    <div class="container">
+        {% for arg in args %}
+        <div class="row">
+            <div class="col">
+                <a href="https://open.spotify.com/playlist/{{ arg['id'] }}">{{ arg["name"] }}</a>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="button" name="{{ arg['id'] }}">Migrate</button>
+            </div>
         </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+
+    <script type="text/javascript">
+        var buttons = document.getElementsByClassName("btn");
+        for(let i = 0; i < buttons.length; i++ ){
+            buttons[i].addEventListener("click", clickHandler);
+        }
+        function clickHandler(event) {
+            console.log(event['originalTarget']['name']);
+            window.location.replace("/migrate?playlist_id=" + event['originalTarget']['name'])
+        }
+    </script>
 </body>
 </html>

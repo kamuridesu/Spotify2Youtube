@@ -8,7 +8,7 @@
 </head>
 <body>
     <p>Autenticado com sucesso! Aguarde <spam id="countdown">05</spam> segundos</p>
-    <p>Caso não seja redirecionado, <a href="" onclick="window.location.replace('/playlists')">clique aqui</a></p>
+    <p>Caso não seja redirecionado, <a href="/playlists" onclick="window.location.assign('/playlists')">clique aqui</a></p>
 
     <script>
         function countdown(duration) {
@@ -25,7 +25,7 @@
                 spam_countdown.innerHTML = seconds;
                 console.log(seconds)
                 if (seconds == "00") {
-                    window.location.replace("/playlists")
+                    window.location.assign("/playlists")
                 }
                 if (--timer < 0) {
                     timer = duration;
