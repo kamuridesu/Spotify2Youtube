@@ -43,7 +43,7 @@
         }
         function clickHandler(event) {
             console.log(event['originalTarget']['name']);
-            window.location.replace("/migrate?playlist_id=" + event['originalTarget']['name'])
+            window.location.assign("/migrate?playlist_id=" + event['originalTarget']['name'])
         }
     </script>
 </body>
