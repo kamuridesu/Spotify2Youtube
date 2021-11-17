@@ -20,5 +20,5 @@ module "google_computer_instance" {
   network_interface = var.network
   gce_ssh_pub_key   = var.gcloud_public_ssh_key
   gce_ssh_user      = var.ssh_user
-  ssh_private_key   = file(var.gcloud_ssh_private_key)
+  ssh_private_key   = var.gcloud_ssh_private_key
 }
