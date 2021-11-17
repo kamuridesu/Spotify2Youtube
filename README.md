@@ -37,5 +37,4 @@ The defined routes are:
 - /success, after authentication, shows that everything was successful
 - /playlists, shows all available playlists and the option to migrate
 - /playlists/tracks, prints the playlists tracks to your terminal
-- /migrate, migrates all the playlists
 - /delete, deletes a youtube playlist using a query string to receive the playlist id, like: `delete?playlist_id=PLxMD4Nzoqa861bL7m3OSY-N4dn3Wr45f4`
