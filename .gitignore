@@ -4,4 +4,5 @@ __pycache__
 test.*
 .terraform
 *.tfstate
+*.tfstate.*
 *.tfvars

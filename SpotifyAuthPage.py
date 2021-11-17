@@ -14,6 +14,7 @@ with open("credentials.json", "r", encoding="utf-8") as f:
     secrets = json.loads(f.read())
 
 API_BASE = "https://accounts.spotify.com"
+# Change this accordingly to your callback url
 REDIRECT_URI = "http://localhost:5000/callback"
 SCOPE = 'playlist-modify-private,playlist-modify-public,user-top-read'
 
@@ -139,3 +140,6 @@ def delete():
 
 if __name__ == "__main__":
     app.run(host="localhost", debug=True, port=5000)
+    # Comment the line above and remove the comment from the line bellow
+    # if you're running on Docker.
+    # app.run(host="0.0.0.0", debug=True, port=5000)
