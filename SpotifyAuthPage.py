@@ -1,12 +1,11 @@
+import json
+import random
+
 from flask import Flask, render_template, redirect, request, session
 import spotipy
-import json
 
 from SpotyApi import SpotifyApi
 import youtube
-
-import threading
-import random
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
@@ -42,7 +41,7 @@ def success():
         session['token_info']
         return render_template("success.html")
     except KeyError:
-        return redirect("auth")
+        return redirect("/")
 
 
 @app.route("/callback")
@@ -65,17 +64,9 @@ def playlists():
     try:
         api = SpotifyApi()
         playlists = api.getPlaylists(session["token_info"]['access_token'])
-        # out = []
-        # for x in playlists:
-        #     output = ""
-        #     output += "name: " + str(x['name'])
-        #     output += " -- id: " + str(x['id'])
-        #     output += " -- url: " + str(x['url'])
-        #     output += "\n"
-        #     out.append(output)
         return render_template("playlists.html", args=playlists)
     except (spotipy.exceptions.SpotifyException, KeyError):
-        return redirect("auth")
+        return redirect("/")
 
 
 @app.route('/playlists/tracks')
@@ -91,7 +82,7 @@ def tracks():
 
         return "false"
     except (spotipy.exceptions.SpotifyException, KeyError):
-        return redirect("auth")
+        return redirect("/")
 
 
 @app.route('/migrate')
@@ -99,41 +90,43 @@ def migrate():
     try:
         api = SpotifyApi()
         playlist_id = request.args.get('playlist_id')
+        if playlist_id is None:
+            return redirect("/")
         playlists = api.getPlaylists(session["token_info"]['access_token'])
         playlist = ""
         for pl in playlists:
             if pl['id'] == playlist_id:
                 playlist = [pl]
         if playlist == "":
-            playlist = playlists
+            return redirect("/")
         tracks = api.getTracks(playlist,
                                session["token_info"]['access_token'])
 
         thread_id = random.randint(0, 10000)
         THREADS[thread_id] = youtube.PlaylistToYoutube(tracks)
         THREADS[thread_id].start()
-        # playlist = youtube.PlaylistToYoutube()
-        # render_template("migrating.html")
-        # playlist.migratePlaylist(tracks)
-        # return redirect('success')
-        return redirect("/migration_success?task_id=" + str(thread_id))
+        return redirect("/migrating?task_id=" + str(thread_id))
     except (spotipy.exceptions.SpotifyException, KeyError):
-        return redirect("auth")
+        return redirect("/")
 
 
 @app.route("/progress/<int:task_id>")
 def progress(task_id):
     global THREADS
-    if THREADS[task_id].done:
-        return "done"
-    return str(THREADS[task_id].progress)
+    if task_id in THREADS.keys():
+        if THREADS[task_id].done:
+            return "done"
+        return str(THREADS[task_id].progress) + "/" + str(THREADS[task_id].total)
+    return redirect("/")
 
 
-@app.route("/migration_success")
-def mg_success():
+@app.route("/migrating")
+def migrating():
     args = request.args.get("task_id")
     if args:
-        return render_template("migration_success.html", task_id=args)
+        return render_template("migrating.html", task_id=args)
+    else:
+        return redirect("/")
 
 
 @app.route('/delete')

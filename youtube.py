@@ -8,6 +8,7 @@ class PlaylistToYoutube(threading.Thread):
     def __init__(self, playlists_to_import) -> None:
         super().__init__()
         self.progress = 0
+        self.total = 0
         self.done = False
         self.ytmusic = YTMusic('headers_auth.json')
         self.playlists_to_import = playlists_to_import
@@ -25,9 +26,10 @@ class PlaylistToYoutube(threading.Thread):
         debug = True
         if debug:
             for playlist in playlists_to_import:
+                self.total = len(playlist['tracks'])
                 for x in playlist['tracks']:
-                    self.progress += 1
                     time.sleep(0.1)
+                    self.progress += 1
             self.done = True
             return
         else:
