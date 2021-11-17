@@ -2,3 +2,6 @@ __pycache__
 *.cache
 *.json
 test.*
+.terraform
+*.tfstate
+*.tfvars
