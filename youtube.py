@@ -5,25 +5,24 @@ import time
 
 
 class PlaylistToYoutube(threading.Thread):
-    def __init__(self, playlists_to_import) -> None:
+    def __init__(self, playlists_to_import: list) -> None:
         super().__init__()
-        self.progress = 0
-        self.total = 0
-        self.done = False
-        self.ytmusic = YTMusic('headers_auth.json')
-        self.playlists_to_import = playlists_to_import
+        self.progress: int = 0
+        self.total: int = 0
+        self.done: bool = False
+        self.ytmusic: YTMusic = YTMusic('headers_auth.json')
+        self.playlists_to_import: list = playlists_to_import
 
-    def addSongToPlaylist(self, playlistId, search_query):
-        search_results = self.ytmusic.search(search_query)
+    def addSongToPlaylist(self, playlistId: str, search_query: str) -> None:
+        search_results: list = self.ytmusic.search(search_query)
         for result in search_results:
             if result['resultType'] == "song":
-                print(result['title'])
                 self.ytmusic.add_playlist_items(playlistId,
                                                 [result['videoId']])
                 break
 
-    def migratePlaylist(self, playlists_to_import):
-        debug = True
+    def migratePlaylist(self, playlists_to_import: list) -> None:
+        debug: bool = True
         if debug:
             for playlist in playlists_to_import:
                 self.total = len(playlist['tracks'])
@@ -34,7 +33,7 @@ class PlaylistToYoutube(threading.Thread):
             return
         else:
             for playlist in playlists_to_import:
-                playlistId = self.ytmusic.create_playlist(
+                playlistId: str = self.ytmusic.create_playlist(
                     playlist['playlist_name'], 'Imported from Spotify')
                 print("localhost:5000/delete?playlist_id=" + playlistId)
                 print("migrando " + playlist['playlist_name'])
@@ -43,13 +42,14 @@ class PlaylistToYoutube(threading.Thread):
                 # processes = []
                 for song in playlist['tracks']:
                     self.progress += 1
-                    search_query = song['name'] + " " + song['artist']
-                    self.addSongToPlaylist(playlistId, search_query, self.ytmusic)
+                    search_query: str = song['name'] + " " + song['artist']
+                    self.addSongToPlaylist(playlistId,
+                                           search_query, self.ytmusic)
 
-    def run(self):
+    def run(self) -> None:
         self.migratePlaylist(self.playlists_to_import)
 
-    def deletePlaylist(self, playlistId):
+    def deletePlaylist(self, playlistId) -> None:
         self.ytmusic.delete_playlist(playlistId)
 
 

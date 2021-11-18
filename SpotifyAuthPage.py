@@ -7,18 +7,18 @@ import spotipy
 from SpotyApi import SpotifyApi
 import youtube
 
-app = Flask(__name__)
-app.secret_key = "secret-key"
-secrets = {}
+app: Flask = Flask(__name__)
+app.secret_key: str = "secret-key"
+secrets: dict = {}
 with open("credentials.json", "r", encoding="utf-8") as f:
     secrets = json.loads(f.read())
 
-API_BASE = "https://accounts.spotify.com"
+API_BASE: str = "https://accounts.spotify.com"
 # Change this accordingly to your callback url
-REDIRECT_URI = "http://localhost:5000/callback"
-SCOPE = 'playlist-modify-private,playlist-modify-public,user-top-read'
+REDIRECT_URI: str = "http://localhost:5000/callback"
+SCOPE: str = 'playlist-modify-private,playlist-modify-public,user-top-read'
 
-THREADS = {}
+THREADS: dict = {}
 
 
 @app.route("/")

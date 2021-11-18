@@ -6,25 +6,41 @@
 	<title>Success</title>
 </head>
 <body>
-	<p>Progress: <span id="count"> </span></p>
+	<label for="file">Migration progress: <span id="count">0/0</span></label>
+	<progress id="file" value="50" max="100"> 32% </progress>
 
 	<script type="text/javascript">
-		function getProgress() {
+		function percentage(x, y) {
+			return (x * 100) / y
+		}
+
+
+		var interval = setInterval(function() {
 			const Http = new XMLHttpRequest();
 			const url = "/progress/{{ task_id }}";
 			Http.open("GET", url);
 			Http.send();
+			let pg_bar = document.getElementById("file");
 			Http.onreadystatechange = (e) => {
 				let response =  Http.responseText;
 				if (response == "done") {
-					window.location.assign("/success");
+					clearInterval(interval);
+					window.location.assign("/playlists");
 				}
 				if (response != "" && response != "done"){
+					// console.log(Http.responseText.split("/"))
+					let res_values = Http.responseText.split("/");
+					let total = res_values[1];
+					let current = res_values[0];
+					let percent = Math.trunc(percentage(current, total));
+					// console.log(percent)
+					pg_bar.value = percent;
+					pg_bar.innerHTML = percent;
+					console.log(pg_bar.value)
 					document.getElementById("count").innerHTML = Http.responseText
 				}
 			}
-		}
-		setInterval(getProgress, 200)
+		}, 200)
 	</script>
 </body>
 </html>
