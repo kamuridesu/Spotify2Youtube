@@ -1,6 +1,7 @@
 # Spotify2Youtube
 Migrate Spotify playlists to Youtube Music
 
+THIS PROJECT IS UNMAINTAINED! USE THIS FORK INSTEAD: https://github.com/Godofcoffe/Rumpel
 
 ## ATTENTION!
 I made this project because I wanted to move from Spotify to YTMusic without losing all my playlists with years of music. It worked, but there's a lot of bugs that I need to fix:
